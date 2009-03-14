@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Really Simple CAPTCHA
-Plugin URI: http://ideasilo.wordpress.com/
+Plugin URI: http://ideasilo.wordpress.com/2009/03/14/really-simple-captcha/
 Description: Really Simple CAPTCHA is a CAPTCHA module intended to be called from other plugins. It is originally created for my Contact Form 7 plugin.
 Author: Takayuki Miyoshi
-Version: 0.1
+Version: 1.0
 Author URI: http://ideasilo.wordpress.com/
 */
 

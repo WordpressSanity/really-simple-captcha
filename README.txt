@@ -4,7 +4,7 @@ Donate link: http://pledgie.com/campaigns/3259
 Tags: captcha
 Requires at least: 2.2
 Tested up to: 2.7.1
-Stable tag: trunk
+Stable tag: 1.0
 
 Really Simple CAPTCHA is a CAPTCHA module intended to be called from other plugins. It is originally created for my Contact Form 7 plugin.
 
