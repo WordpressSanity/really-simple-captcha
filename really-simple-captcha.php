@@ -156,6 +156,35 @@ class ReallySimpleCaptcha {
 				unlink( $file );
 		}
 	}
+
+	/* Clean up dead files older than $minutes in the tmp folder */
+
+	function cleanup( $minutes = 60 ) {
+		$dir = $this->tmp_dir;
+
+		if ( ! is_dir( $dir ) || ! is_readable( $dir ) || ! is_writable( $dir ) )
+			return false;
+
+		$count = 0;
+
+		if ( $handle = @opendir( $dir ) ) {
+			while ( false !== ( $file = readdir( $handle ) ) ) {
+				if ( ! preg_match( '/^[0-9]+\.(php|png|gif|jpeg)$/', $file ) )
+					continue;
+
+				$stat = @stat( $dir . $file );
+				if ( ( $stat['mtime'] + $minutes * 60 ) < time() ) {
+					@unlink( $dir . $file );
+					$count += 1;
+				}
+			}
+
+			closedir( $handle );
+		}
+
+		return $count;
+	}
+
 }
 
 ?>
