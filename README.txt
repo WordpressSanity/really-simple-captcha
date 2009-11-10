@@ -79,7 +79,7 @@ FYI: There is no "control panel" for this plugin.
 
 Really Simple CAPTCHA needs GD and FreeType library installed on your server. Ask your server administrator if they are installed.
 
-Also, make the temporary file folder writable. The location of the temporary file folder is managed by the instance variable tmp_dir of ReallySimpleCaptcha class. Note that the setting varies depending on the calling plugin. For example, Contact Form 7 uses wp-contents/uploads/wpcf7_captcha as the temporary folder basically, but it can use different folder depending on your settings.
+Also, make the temporary file folder writable. The location of the temporary file folder is managed by the instance variable `tmp_dir` of ReallySimpleCaptcha class. Note that the setting varies depending on the calling plugin. For example, Contact Form 7 uses `wp-contents/uploads/wpcf7_captcha` as the temporary folder basically, but it can use different folder depending on your settings.
 
 If you have any further questions, please submit them [to the support forum](http://wordpress.org/tags/really-simple-captcha?forum_id=10#postform).
 
