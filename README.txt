@@ -3,7 +3,7 @@ Contributors: takayukister
 Donate link: http://contactform7.com/donate/
 Tags: captcha
 Requires at least: 2.8
-Tested up to: 2.8.5
+Tested up to: 3.0.1
 Stable tag: 1.1
 
 Really Simple CAPTCHA is a CAPTCHA module intended to be called from other plugins. It is originally created for my Contact Form 7 plugin.
@@ -60,7 +60,7 @@ And last, remove the temporary image and PHP files, as they are no longer in use
 
 That's all.
 
-If you wish to see a live sample of this, you can try Contact Form 7.
+If you wish to see a live sample of this, you can try [Contact Form 7](http://contactform7.com/).
 
 == Installation ==
 
@@ -88,6 +88,9 @@ If you have any further questions, please submit them [to the support forum](htt
 1. screenshot-1.png
 
 == Changelog ==
+
+= 1.2 =
+* File name sanitization added.
 
 = 1.1 =
 * The required WordPress version changed to 2.8 and higher.
