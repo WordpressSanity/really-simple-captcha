@@ -4,7 +4,7 @@ Donate link: http://contactform7.com/donate/
 Tags: captcha
 Requires at least: 2.8
 Tested up to: 3.0.1
-Stable tag: 1.1
+Stable tag: 1.2
 
 Really Simple CAPTCHA is a CAPTCHA module intended to be called from other plugins. It is originally created for my Contact Form 7 plugin.
 
