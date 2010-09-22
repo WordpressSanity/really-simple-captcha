@@ -88,6 +88,7 @@ class ReallySimpleCaptcha {
 	This function returns the filename of the CAPTCHA image temporary file */
 
 	function generate_image( $prefix, $word ) {
+		$dir = trailingslashit( $this->tmp_dir );
 		$filename = null;
 
 		if ( $im = imagecreatetruecolor( $this->img_size[0], $this->img_size[1] ) ) {
@@ -107,25 +108,27 @@ class ReallySimpleCaptcha {
 
 			switch ( $this->img_type ) {
 				case 'jpeg':
-					$filename = $prefix . '.jpeg';
-					imagejpeg( $im, $this->tmp_dir . $filename );
+					$filename = sanitize_file_name( $prefix . '.jpeg' );
+					imagejpeg( $im, $dir . $filename );
 					break;
 				case 'gif':
-					$filename = $prefix . '.gif';
-					imagegif( $im, $this->tmp_dir . $filename );
+					$filename = sanitize_file_name( $prefix . '.gif' );
+					imagegif( $im, $dir . $filename );
 					break;
 				case 'png':
 				default:
-					$filename = $prefix . '.png';
-					imagepng( $im, $this->tmp_dir . $filename );
+					$filename = sanitize_file_name( $prefix . '.png' );
+					imagepng( $im, $dir . $filename );
 			}
 
 			imagedestroy( $im );
-			@chmod( $this->tmp_dir . $filename, $this->file_mode );
+			@chmod( $dir . $filename, $this->file_mode );
 		}
 
-		if ( $fh = fopen( $this->tmp_dir . $prefix . '.php', 'w' ) ) {
-			@chmod( $this->tmp_dir . $prefix . '.php', $this->file_mode );
+		$answer_file = $dir . sanitize_file_name( $prefix . '.php' );
+
+		if ( $fh = fopen( $answer_file, 'w' ) ) {
+			@chmod( $answer_file, $this->file_mode );
 			fwrite( $fh, '<?php $captcha = "' . $word . '"; ?>' );
 			fclose( $fh );
 		}
@@ -137,8 +140,12 @@ class ReallySimpleCaptcha {
 	Return true if the two match, otherwise return false. */
 
 	function check( $prefix, $response ) {
-		if ( is_readable( $this->tmp_dir . $prefix . '.php' ) ) {
-			include( $this->tmp_dir . $prefix . '.php' );
+		$dir = trailingslashit( $this->tmp_dir );
+		$filename = sanitize_file_name( $prefix . '.php' );
+		$file = $dir . $filename;
+
+		if ( is_readable( $file ) ) {
+			include( $file );
 			if ( 0 == strcasecmp( $response, $captcha ) )
 				return true;
 		}
@@ -151,7 +158,8 @@ class ReallySimpleCaptcha {
 		$suffixes = array( '.jpeg', '.gif', '.png', '.php' );
 
 		foreach ( $suffixes as $suffix ) {
-			$file = $this->tmp_dir . $prefix . $suffix;
+			$filename = sanitize_file_name( $prefix . $suffix );
+			$file = trailingslashit( $this->tmp_dir ) . $filename;
 			if ( is_file( $file ) )
 				unlink( $file );
 		}
@@ -160,7 +168,7 @@ class ReallySimpleCaptcha {
 	/* Clean up dead files older than $minutes in the tmp folder */
 
 	function cleanup( $minutes = 60 ) {
-		$dir = $this->tmp_dir;
+		$dir = trailingslashit( $this->tmp_dir );
 
 		if ( ! is_dir( $dir ) || ! is_readable( $dir ) || ! is_writable( $dir ) )
 			return false;
@@ -168,13 +176,15 @@ class ReallySimpleCaptcha {
 		$count = 0;
 
 		if ( $handle = @opendir( $dir ) ) {
-			while ( false !== ( $file = readdir( $handle ) ) ) {
-				if ( ! preg_match( '/^[0-9]+\.(php|png|gif|jpeg)$/', $file ) )
+			while ( false !== ( $filename = readdir( $handle ) ) ) {
+				if ( ! preg_match( '/^[0-9]+\.(php|png|gif|jpeg)$/', $filename ) )
 					continue;
 
-				$stat = @stat( $dir . $file );
+				$file = $dir . $filename;
+
+				$stat = @stat( $file );
 				if ( ( $stat['mtime'] + $minutes * 60 ) < time() ) {
-					@unlink( $dir . $file );
+					@unlink( $file );
 					$count += 1;
 				}
 			}
