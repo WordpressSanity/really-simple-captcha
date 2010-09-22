@@ -1,6 +1,6 @@
 === Really Simple CAPTCHA ===
 Contributors: takayukister
-Donate link: http://pledgie.com/campaigns/3259
+Donate link: http://contactform7.com/donate/
 Tags: captcha
 Requires at least: 2.8
 Tested up to: 2.8.5
