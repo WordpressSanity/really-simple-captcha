@@ -125,11 +125,11 @@ class ReallySimpleCaptcha {
 			@chmod( $dir . $filename, $this->file_mode );
 		}
 
-		$answer_file = $dir . sanitize_file_name( $prefix . '.php' );
+		$answer_file = $dir . sanitize_file_name( $prefix . '.txt' );
 
 		if ( $fh = fopen( $answer_file, 'w' ) ) {
 			@chmod( $answer_file, $this->file_mode );
-			fwrite( $fh, '<?php $captcha = "' . $word . '"; ?>' );
+			fwrite( $fh, $word );
 			fclose( $fh );
 		}
 
@@ -141,21 +141,24 @@ class ReallySimpleCaptcha {
 
 	function check( $prefix, $response ) {
 		$dir = trailingslashit( $this->tmp_dir );
-		$filename = sanitize_file_name( $prefix . '.php' );
+		$filename = sanitize_file_name( $prefix . '.txt' );
 		$file = $dir . $filename;
 
-		if ( is_readable( $file ) ) {
-			include( $file );
-			if ( 0 == strcasecmp( $response, $captcha ) )
-				return true;
-		}
+		if ( ! is_readable( $file ) )
+			return false;
+
+		$answer = file_get_contents( $file );
+
+		if ( ! empty( $answer ) && 0 == strcasecmp( $response, $answer ) )
+			return true;
+
 		return false;
 	}
 
 	/* Remove temporary files with $prefix */
 
 	function remove( $prefix ) {
-		$suffixes = array( '.jpeg', '.gif', '.png', '.php' );
+		$suffixes = array( '.jpeg', '.gif', '.png', '.php', '.txt' );
 
 		foreach ( $suffixes as $suffix ) {
 			$filename = sanitize_file_name( $prefix . $suffix );
@@ -177,7 +180,7 @@ class ReallySimpleCaptcha {
 
 		if ( $handle = @opendir( $dir ) ) {
 			while ( false !== ( $filename = readdir( $handle ) ) ) {
-				if ( ! preg_match( '/^[0-9]+\.(php|png|gif|jpeg)$/', $filename ) )
+				if ( ! preg_match( '/^[0-9]+\.(php|txt|png|gif|jpeg)$/', $filename ) )
 					continue;
 
 				$file = $dir . $filename;
