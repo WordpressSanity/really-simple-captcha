@@ -4,7 +4,7 @@ Plugin Name: Really Simple CAPTCHA
 Plugin URI: http://ideasilo.wordpress.com/2009/03/14/really-simple-captcha/
 Description: Really Simple CAPTCHA is a CAPTCHA module intended to be called from other plugins. It is originally created for my Contact Form 7 plugin.
 Author: Takayuki Miyoshi
-Version: 1.3
+Version: 1.4
 Author URI: http://ideasilo.wordpress.com/
 */
 
@@ -125,11 +125,11 @@ class ReallySimpleCaptcha {
 			@chmod( $dir . $filename, $this->file_mode );
 		}
 
-		$answer_file = $dir . sanitize_file_name( $prefix . '.txt' );
+		$answer_file = $dir . sanitize_file_name( $prefix . '.php' );
 
 		if ( $fh = fopen( $answer_file, 'w' ) ) {
 			@chmod( $answer_file, $this->file_mode );
-			fwrite( $fh, $word );
+			fwrite( $fh, '<?php $captcha = "' . $word . '"; ?>' );
 			fclose( $fh );
 		}
 
@@ -141,17 +141,14 @@ class ReallySimpleCaptcha {
 
 	function check( $prefix, $response ) {
 		$dir = trailingslashit( $this->tmp_dir );
-		$filename = sanitize_file_name( $prefix . '.txt' );
+		$filename = sanitize_file_name( $prefix . '.php' );
 		$file = $dir . $filename;
 
-		if ( ! is_readable( $file ) )
-			return false;
-
-		$answer = file_get_contents( $file );
-
-		if ( ! empty( $answer ) && 0 == strcasecmp( $response, $answer ) )
-			return true;
-
+		if ( is_readable( $file ) ) {
+			include( $file );
+			if ( 0 == strcasecmp( $response, $captcha ) )
+				return true;
+		}
 		return false;
 	}
 
