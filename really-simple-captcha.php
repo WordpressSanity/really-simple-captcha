@@ -67,7 +67,7 @@ class ReallySimpleCaptcha {
 		$this->img_type = 'png';
 
 		/* Mode of temporary files */
-		$this->file_mode = 0755;
+		$this->file_mode = 0440;
 	}
 
 	/* Generate and return random word with $chars characters x $char_length length */
@@ -137,8 +137,6 @@ class ReallySimpleCaptcha {
 		$answer_file = $dir . sanitize_file_name( $prefix . '.txt' );
 
 		if ( $fh = fopen( $answer_file, 'w' ) ) {
-			@chmod( $answer_file, $this->file_mode );
-
 			$salt = wp_generate_password( 64 );
 			$hash = hash_hmac( 'md5', $word, $salt );
 			$code = $salt . '|' . $hash;
@@ -146,6 +144,8 @@ class ReallySimpleCaptcha {
 			fwrite( $fh, $code );
 			fclose( $fh );
 		}
+
+		@chmod( $answer_file, $this->file_mode );
 	}
 
 	/* Check a $response against the code kept in the temporary file with $prefix
