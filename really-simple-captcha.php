@@ -42,7 +42,7 @@ class ReallySimpleCaptcha {
 			dirname( __FILE__ ) . '/gentium/GenI102.TTF',
 			dirname( __FILE__ ) . '/gentium/GenR102.TTF' );
 
-		/* Directory temporary keeping CAPTCHA images and corresponding codes */
+		/* Directory temporary keeping CAPTCHA images and corresponding text files */
 		$this->tmp_dir = dirname( __FILE__ ) . '/tmp/';
 
 		/* Array of CAPTCHA image size. Width and height */
@@ -213,6 +213,8 @@ class ReallySimpleCaptcha {
 
 		return $count;
 	}
+
+	/* Make a temporary directory and generate .htaccess file in it */
 
 	function make_tmp_dir() {
 		$dir = trailingslashit( $this->tmp_dir );

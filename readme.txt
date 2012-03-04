@@ -18,9 +18,9 @@ Note: This product is "really simple" as its name suggests, i.e., it is not stro
 
 Really Simple CAPTCHA does not use PHP "Sessions" for storing states, unlike many other PHP CAPTCHA solutions, but stores them as temporary files. This allows you to embed it into WordPress without worrying about conflicts.
 
-When you generate a CAPTCHA, Really Simple CAPTCHA creates two files for it; one is an image file of CAPTCHA, and the other is a PHP file which returns the correct answer to the CAPTCHA.
+When you generate a CAPTCHA, Really Simple CAPTCHA creates two files for it; one is an image file of CAPTCHA, and the other is a text file which stores the correct answer to the CAPTCHA.
 
-The two files have the same (random) prefix in their file names, for example, "a7hk3ux8p.png" and "a7hk3ux8p.php." In this case, for example, when the respondent answers "K5GF" as an answer to the "a7hk3ux8p.png" image, then Really Simple CAPTCHA runs "a7hk3ux8p.php" code and tests the answer against the return value it receives. If the return value is "K5GF," the two match, and the answer is confirmed as correct.
+The two files have the same (random) prefix in their file names, for example, "a7hk3ux8p.png" and "a7hk3ux8p.txt." In this case, for example, when the respondent answers "K5GF" as an answer to the "a7hk3ux8p.png" image, then Really Simple CAPTCHA calculates hash of "K5GF" and tests it against the hash stored in the "a7hk3ux8p.txt" file. If the two match, the answer is confirmed as correct.
 
 = How to use with your plugin =
 
@@ -41,7 +41,7 @@ Generate a random word for CAPTCHA.
 
     $word = $captcha_instance->generate_random_word();
 
-Generate an image file and a PHP code file in the temporary directory.
+Generate an image file and a corresponding text file in the temporary directory.
 
     $prefix = mt_rand();
     $captcha_instance->generate_image( $prefix, $word );
@@ -54,7 +54,7 @@ Check the correctness of the answer.
 
 If the $correct is true, go ahead. Otherwise, block the respondent -- as it would appear not to be human.
 
-And last, remove the temporary image and PHP files, as they are no longer in use.
+And last, remove the temporary image and text files, as they are no longer in use.
 
     $captcha_instance->remove( $prefix );
 
