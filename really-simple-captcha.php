@@ -66,8 +66,11 @@ class ReallySimpleCaptcha {
 		/* Image type. 'png', 'gif' or 'jpeg' */
 		$this->img_type = 'png';
 
-		/* Mode of temporary files */
-		$this->file_mode = 0440;
+		/* Mode of temporary image files */
+		$this->file_mode = 0444;
+
+		/* Mode of temporary answer text files */
+		$this->answer_file_mode = 0440;
 	}
 
 	/* Generate and return random word with $chars characters x $char_length length */
@@ -145,7 +148,7 @@ class ReallySimpleCaptcha {
 			fclose( $fh );
 		}
 
-		@chmod( $answer_file, $this->file_mode );
+		@chmod( $answer_file, $this->answer_file_mode );
 	}
 
 	/* Check a $response against the code kept in the temporary file with $prefix
