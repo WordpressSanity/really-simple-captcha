@@ -125,30 +125,49 @@ class ReallySimpleCaptcha {
 			@chmod( $dir . $filename, $this->file_mode );
 		}
 
-		$answer_file = $dir . sanitize_file_name( $prefix . '.php' );
+		$this->generate_answer_file( $prefix, $word );
+
+		return $filename;
+	}
+
+	/* Generate answer file corresponding to CAPTCHA image. */
+
+	function generate_answer_file( $prefix, $word ) {
+		$dir = trailingslashit( $this->tmp_dir );
+		$answer_file = $dir . sanitize_file_name( $prefix . '.txt' );
 
 		if ( $fh = fopen( $answer_file, 'w' ) ) {
 			@chmod( $answer_file, $this->file_mode );
-			fwrite( $fh, '<?php $captcha = "' . $word . '"; ?>' );
+
+			$salt = wp_generate_password( 64 );
+			$hash = hash_hmac( 'md5', $word, $salt );
+			$code = $salt . '|' . $hash;
+
+			fwrite( $fh, $code );
 			fclose( $fh );
 		}
-
-		return $filename;
 	}
 
 	/* Check a $response against the code kept in the temporary file with $prefix
 	Return true if the two match, otherwise return false. */
 
 	function check( $prefix, $response ) {
+		$response = strtoupper( $response );
+
 		$dir = trailingslashit( $this->tmp_dir );
-		$filename = sanitize_file_name( $prefix . '.php' );
+		$filename = sanitize_file_name( $prefix . '.txt' );
 		$file = $dir . $filename;
 
-		if ( is_readable( $file ) ) {
-			include( $file );
-			if ( 0 == strcasecmp( $response, $captcha ) )
+		if ( is_readable( $file ) && ( $code = file_get_contents( $file ) ) ) {
+			$code = explode( '|', $code, 2 );
+
+			$salt = $code[0];
+			$hash = $code[1];
+
+			if ( hash_hmac( 'md5', $response, $salt ) == $hash )
 				return true;
 		}
+
 		return false;
 	}
 
