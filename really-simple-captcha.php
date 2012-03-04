@@ -214,6 +214,26 @@ class ReallySimpleCaptcha {
 		return $count;
 	}
 
+	function make_tmp_dir() {
+		$dir = trailingslashit( $this->tmp_dir );
+
+		if ( ! wp_mkdir_p( $dir ) )
+			return false;
+
+		$htaccess_file = $dir . '.htaccess';
+
+		if ( file_exists( $htaccess_file ) )
+			return true;
+
+		if ( $handle = @fopen( $htaccess_file, 'w' ) ) {
+			fwrite( $handle, '<Files ~ "\\.txt$">' . "\n" );
+			fwrite( $handle, '    Deny from all' . "\n" );
+			fwrite( $handle, '</Files>' . "\n" );
+			fclose( $handle );
+		}
+
+		return true;
+	}
 }
 
 ?>
