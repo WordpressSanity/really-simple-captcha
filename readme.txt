@@ -2,7 +2,7 @@
 Contributors: takayukister
 Donate link: http://contactform7.com/donate/
 Tags: captcha
-Requires at least: 2.8
+Requires at least: 3.2
 Tested up to: 3.3.1
 Stable tag: 1.4
 
@@ -89,6 +89,11 @@ If you have any further questions, please submit them [to the support forum](htt
 
 == Changelog ==
 
+= 1.5 =
+
+* The required WordPress version changed to 3.2 and higher.
+* Use plain text file as answer file (again). This time, hash value generated with hash_hmac() is stored in the file.
+
 = 1.4 =
 
 * Reverted answer file to PHP. As plain text file is visible from client side, that's not good.
@@ -102,4 +107,4 @@ If you have any further questions, please submit them [to the support forum](htt
 
 = 1.1 =
 * The required WordPress version changed to 2.8 and higher.
-* `cleanup()` method added.
+* cleanup() method added.
