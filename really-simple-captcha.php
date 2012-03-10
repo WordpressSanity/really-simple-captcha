@@ -77,11 +77,13 @@ class ReallySimpleCaptcha {
 
 	function generate_random_word() {
 		$word = '';
+
 		for ( $i = 0; $i < $this->char_length; $i++ ) {
 			$pos = mt_rand( 0, strlen( $this->chars ) - 1 );
 			$char = $this->chars[$pos];
 			$word .= $char;
 		}
+
 		return $word;
 	}
 
@@ -140,8 +142,10 @@ class ReallySimpleCaptcha {
 		$answer_file = $dir . sanitize_file_name( $prefix . '.txt' );
 
 		if ( $fh = fopen( $answer_file, 'w' ) ) {
+			$word = strtoupper( $word );
 			$salt = wp_generate_password( 64 );
 			$hash = hash_hmac( 'md5', $word, $salt );
+
 			$code = $salt . '|' . $hash;
 
 			fwrite( $fh, $code );
