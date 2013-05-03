@@ -37,10 +37,10 @@ class ReallySimpleCaptcha {
 
 		/* Array of fonts. Randomly picked up per character */
 		$this->fonts = array(
-			dirname( __FILE__ ) . '/gentium/GenBasR.ttf',
-			dirname( __FILE__ ) . '/gentium/GenBasI.ttf',
-			dirname( __FILE__ ) . '/gentium/GenBasBI.ttf',
-			dirname( __FILE__ ) . '/gentium/GenBasB.ttf' );
+			dirname( __FILE__ ) . '/gentium/GenBkBasR.ttf',
+			dirname( __FILE__ ) . '/gentium/GenBkBasI.ttf',
+			dirname( __FILE__ ) . '/gentium/GenBkBasBI.ttf',
+			dirname( __FILE__ ) . '/gentium/GenBkBasB.ttf' );
 
 		/* Directory temporary keeping CAPTCHA images and corresponding text files */
 		$this->tmp_dir = dirname( __FILE__ ) . '/tmp/';
@@ -106,7 +106,7 @@ class ReallySimpleCaptcha {
 
 			for ( $i = 0; $i < strlen( $word ); $i++ ) {
 				$font = $this->fonts[array_rand( $this->fonts )];
-				imagettftext( $im, $this->font_size, mt_rand( -2, 2 ), $x,
+				imagettftext( $im, $this->font_size, mt_rand( -12, 12 ), $x,
 					$this->base[1] + mt_rand( -2, 2 ), $fg, $font, $word[$i] );
 				$x += $this->font_char_width;
 			}
