@@ -206,7 +206,12 @@ class ReallySimpleCaptcha {
 	function cleanup( $minutes = 60 ) {
 		$dir = trailingslashit( $this->tmp_dir );
 
-		if ( ! @is_dir( $dir ) || ! @is_readable( $dir ) || ! @is_writable( $dir ) )
+		if ( ! @is_dir( $dir ) || ! @is_readable( $dir ) )
+			return false;
+
+		$is_win = ( 'WIN' === strtoupper( substr( PHP_OS, 0, 3 ) ) );
+
+		if ( ! ( $is_win ? win_is_writable( $dir ) : @is_writable( $dir ) ) )
 			return false;
 
 		$count = 0;
