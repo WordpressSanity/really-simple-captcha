@@ -106,6 +106,11 @@ class ReallySimpleCaptcha {
 
 			for ( $i = 0; $i < strlen( $word ); $i++ ) {
 				$font = $this->fonts[array_rand( $this->fonts )];
+
+				// sanitize for Win32 installs
+				$font = str_replace( '\\', '/', $font );
+				$font = preg_replace( '|/+|', '/', $font );
+
 				imagettftext( $im, $this->font_size, mt_rand( -12, 12 ), $x,
 					$this->base[1] + mt_rand( -2, 2 ), $fg, $font, $word[$i] );
 				$x += $this->font_char_width;
