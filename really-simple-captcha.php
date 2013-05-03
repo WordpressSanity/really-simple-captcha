@@ -43,7 +43,7 @@ class ReallySimpleCaptcha {
 			dirname( __FILE__ ) . '/gentium/GenBkBasB.ttf' );
 
 		/* Directory temporary keeping CAPTCHA images and corresponding text files */
-		$this->tmp_dir = dirname( __FILE__ ) . '/tmp/';
+		$this->tmp_dir = path_join( dirname( __FILE__ ), 'tmp' );
 
 		/* Array of CAPTCHA image size. Width and height */
 		$this->img_size = array( 72, 24 );
