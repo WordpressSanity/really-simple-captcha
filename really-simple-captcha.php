@@ -151,7 +151,7 @@ class ReallySimpleCaptcha {
 		$dir = trailingslashit( $this->tmp_dir );
 		$answer_file = $dir . sanitize_file_name( $prefix . '.txt' );
 
-		if ( $fh = fopen( $answer_file, 'w' ) ) {
+		if ( $fh = @fopen( $answer_file, 'w' ) ) {
 			$word = strtoupper( $word );
 			$salt = wp_generate_password( 64 );
 			$hash = hash_hmac( 'md5', $word, $salt );
@@ -175,7 +175,7 @@ class ReallySimpleCaptcha {
 		$filename = sanitize_file_name( $prefix . '.txt' );
 		$file = $dir . $filename;
 
-		if ( is_readable( $file ) && ( $code = file_get_contents( $file ) ) ) {
+		if ( @is_readable( $file ) && ( $code = file_get_contents( $file ) ) ) {
 			$code = explode( '|', $code, 2 );
 
 			$salt = $code[0];
@@ -196,7 +196,7 @@ class ReallySimpleCaptcha {
 		foreach ( $suffixes as $suffix ) {
 			$filename = sanitize_file_name( $prefix . $suffix );
 			$file = trailingslashit( $this->tmp_dir ) . $filename;
-			if ( is_file( $file ) )
+			if ( @is_file( $file ) )
 				unlink( $file );
 		}
 	}
@@ -206,7 +206,7 @@ class ReallySimpleCaptcha {
 	function cleanup( $minutes = 60 ) {
 		$dir = trailingslashit( $this->tmp_dir );
 
-		if ( ! is_dir( $dir ) || ! is_readable( $dir ) || ! is_writable( $dir ) )
+		if ( ! @is_dir( $dir ) || ! @is_readable( $dir ) || ! @is_writable( $dir ) )
 			return false;
 
 		$count = 0;
