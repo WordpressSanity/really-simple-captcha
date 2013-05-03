@@ -93,6 +93,11 @@ class ReallySimpleCaptcha {
 	This function returns the filename of the CAPTCHA image temporary file */
 
 	function generate_image( $prefix, $word ) {
+		if ( ! $this->make_tmp_dir() )
+			return false;
+
+		$this->cleanup();
+
 		$dir = trailingslashit( $this->tmp_dir );
 		$filename = null;
 
