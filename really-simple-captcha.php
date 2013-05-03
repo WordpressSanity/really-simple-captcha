@@ -37,10 +37,10 @@ class ReallySimpleCaptcha {
 
 		/* Array of fonts. Randomly picked up per character */
 		$this->fonts = array(
-			dirname( __FILE__ ) . '/gentium/GenAI102.TTF',
-			dirname( __FILE__ ) . '/gentium/GenAR102.TTF',
-			dirname( __FILE__ ) . '/gentium/GenI102.TTF',
-			dirname( __FILE__ ) . '/gentium/GenR102.TTF' );
+			dirname( __FILE__ ) . '/gentium/GenBasR.ttf',
+			dirname( __FILE__ ) . '/gentium/GenBasI.ttf',
+			dirname( __FILE__ ) . '/gentium/GenBasBI.ttf',
+			dirname( __FILE__ ) . '/gentium/GenBasB.ttf' );
 
 		/* Directory temporary keeping CAPTCHA images and corresponding text files */
 		$this->tmp_dir = dirname( __FILE__ ) . '/tmp/';
