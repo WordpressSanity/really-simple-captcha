@@ -1,14 +1,14 @@
 <?php
 /*
 Plugin Name: Really Simple CAPTCHA
-Plugin URI: http://ideasilo.wordpress.com/2009/03/14/really-simple-captcha/
+Plugin URI: http://contactform7.com/captcha/
 Description: Really Simple CAPTCHA is a CAPTCHA module intended to be called from other plugins. It is originally created for my Contact Form 7 plugin.
 Author: Takayuki Miyoshi
-Version: 1.5
+Version: 1.6
 Author URI: http://ideasilo.wordpress.com/
 */
 
-/*  Copyright 2007-2012 Takayuki Miyoshi (email: takayukister at gmail.com)
+/*  Copyright 2007-2013 Takayuki Miyoshi (email: takayukister at gmail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,6 +24,8 @@ Author URI: http://ideasilo.wordpress.com/
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
+define( 'REALLYSIMPLECAPTCHA_VERSION', '1.6' );
 
 class ReallySimpleCaptcha {
 
