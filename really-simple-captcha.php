@@ -184,6 +184,7 @@ class ReallySimpleCaptcha {
 	 * @return bool Return true if the two match, otherwise return false.
 	 */
 	function check( $prefix, $response ) {
+		$response = str_replace( array( " ", "\t" ), '', $response );
 		$response = strtoupper( $response );
 
 		$dir = trailingslashit( $this->tmp_dir );
